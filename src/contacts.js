@@ -14,12 +14,6 @@ function writeContacts(contacts) {
 	return fs.writeFile(contactsPath, JSON.stringify(contacts, undefined, 2))
 }
 
-async function getListContacts() {
-	const contacts = await listContacts()
-
-	return contacts
-}
-
 async function getContactById(contactId) {
 	const contacts = await listContacts()
 
@@ -58,4 +52,4 @@ async function addContact(name, email, phone) {
 	return newContact
 }
 
-export default { getListContacts, getContactById, removeContact, addContact }
+export default { listContacts, getContactById, removeContact, addContact }
