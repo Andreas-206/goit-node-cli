@@ -14,10 +14,20 @@ function writeContacts(contacts) {
 	return fs.writeFile(contactsPath, JSON.stringify(contacts, undefined, 2))
 }
 
+async function addContact(name, email, phone) {
+	const contacts = await listContacts()
+
+	const newContact = { name, email, phone, id: crypto.randomUUID() }
+	contacts.push(newContact)
+	await writeContacts(contacts)
+
+	return newContact
+}
+
 async function getContactById(contactId) {
 	const contacts = await listContacts()
 
-	const contact = contact.find(contact => contact.id === id)
+	const contact = contacts.find(contact => contact.id === contactId)
 
 	if (typeof contact === 'undefined') {
 		return null
@@ -40,16 +50,6 @@ async function removeContact(contactId) {
 	await writeContacts(contacts)
 
 	return removedContact
-}
-
-async function addContact(name, email, phone) {
-	const contacts = await listContacts()
-
-	const newContact = { ...contact, id: crypto.randomUUID() }
-	contacts.push(newContact)
-	await writeContacts(contacts)
-
-	return newContact
 }
 
 export default { listContacts, getContactById, removeContact, addContact }
